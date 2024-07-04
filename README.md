@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Production URL
+    https://sc-task.onrender.com
 
-Things you may want to cover:
+### JSON API USAGE
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* send a get request to `/max_sum` and send a your numbers as json body
+    ```json
+    {
+        "numbers": [4,2,1,-3,2,0]
+    }
+    ```
