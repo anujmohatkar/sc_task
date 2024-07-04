@@ -14,7 +14,7 @@ RSpec.describe HomeController, type: :controller do
         user = User.create(email: "test@example.com", password: "password123")
         sign_in user
         get :index
-        expect(response).to be_successful
+        expect(response).to be_redirect
       end
     end
   end

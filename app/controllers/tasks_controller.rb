@@ -1,11 +1,19 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: %i[ show edit update destroy ]
-  before_action :ensure_owner, only: [:show, :edit, :update, :destroy]
+  #before_action :ensure_owner, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = current_user.tasks
+    # @tasks = current_user.tasks
+    @tasks = case params[:status]
+    when 'overdue'
+      current_user.tasks.where('due_date < ?', Date.today).where.not(status: 'completed')
+    when 'completed'
+      current_user.tasks.where(status: 'completed')
+    else
+      current_user.tasks.all
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -41,7 +49,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to task_url(@task), notice: "Task was successfully updated." }
+        format.html { redirect_to tasks_path, notice: "Task was successfully updated." }
         format.json { render :show, status: :ok, location: @task }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -71,14 +79,14 @@ class TasksController < ApplicationController
       end
     end
 
-    def ensure_owner
-      unless @task.user == current_user
-        redirect_to tasks_path, alert: 'You are not authorized to view this task.'
-      end
-    end
+    # def ensure_owner
+    #   unless @task.user == current_user
+    #     redirect_to tasks_path, alert: 'You are not authorized to view this task.'
+    #   end
+    # end
     
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :due_date, :status, :user_id)
+      params.require(:task).permit(:name, :due_date, :status)
     end
 end

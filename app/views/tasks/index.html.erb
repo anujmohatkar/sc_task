@@ -1,14 +1,49 @@
-<p style="color: green"><%= notice %></p>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Tasks</h1>
+    <%= link_to "New task", new_task_path, class: "btn btn-primary" %>
+  </div>
 
-<h1>Tasks</h1>
+  <nav class="nav nav-pills nav-fill mb-4">
+    <%= link_to "All", tasks_path, class: "nav-link #{params[:status].nil? ? 'active' : ''}" %>
+    <%= link_to "Overdue", tasks_path(status: 'overdue'), class: "nav-link #{params[:status] == 'overdue' ? 'active' : ''}" %>
+    <%= link_to "Completed", tasks_path(status: 'completed'), class: "nav-link #{params[:status] == 'completed' ? 'active' : ''}" %>
+  </nav>
 
-<div id="tasks">
-  <% @tasks.each do |task| %>
-    <%= render task %>
-    <p>
-      <%= link_to "Show this task", task %>
-    </p>
+  <!-- Add a horizontal line here -->
+  <hr class="my-4">
+
+  <% if params[:status].nil? %>
+    <div class="row status-containers">
+      <% ['pending', 'in_progress', 'completed'].each do |status| %>
+        <div class="col-md-4 status-column <%= 'status-column-separator' unless status == 'completed' %>">
+          <h3 class="text-center"><%= status.titleize %></h3>
+          <div class="task-container" id="<%= status %>-tasks">
+            <% @tasks.select { |task| task.status == status }.each do |task| %>
+              <%= render task %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% elsif params[:status] == "overdue" %>
+    <div class="row status-containers">
+      <% ['pending', 'in_progress'].each do |status| %>
+        <div class="col-md-6 status-column <%= 'status-column-separator' unless status == 'completed' %>">
+          <h3 class="text-center"><%= status.titleize %></h3>
+          <div class="task-container" id="<%= status %>-tasks">
+            <% @tasks.select { |task| task.status == status }.each do |task| %>
+              <%= render task %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="task-container">
+      <% @tasks.each do |task| %>
+        <%= render task %>
+      <% end %>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New task", new_task_path %>

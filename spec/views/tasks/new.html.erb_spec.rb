@@ -2,11 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "tasks/new", type: :view do
   let(:user) { User.create!(email: "test@example.com", password: "password123") }
+  before do
+    sign_in user
+  end
   
   before(:each) do
     assign(:task, Task.new(
       name: "MyString",
-      status: 1,
+      status: "pending",
       due_date: Date.current,
       user: user
     ))

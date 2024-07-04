@@ -1,2 +1,32 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+.margin_right {
+  margin-right: 0.5rem !important;
+}
+
+.status-containers {
+  position: relative;
+}
+
+.status-column-separator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #dee2e6;
+}
+
+@media (max-width: 767px) {
+  .status-column-separator::after {
+    display: none;
+  }
+  
+  .status-column:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+}

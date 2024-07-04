@@ -12,26 +12,21 @@
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label :name, style: "display: block", class: " form-label" %>
+    <%= form.text_field :name, class: "form-control mb-2", placeholder: "Task Name (should be minimum 5 Charachters long)" %>
   </div>
 
   <div>
-    <%= form.label :due_date, style: "display: block" %>
-    <%= form.date_field :due_date %>
+    <%= form.label :due_date, style: "display: block", class: " form-label" %>
+    <%= form.date_field :due_date, class: "form-control mb-2", value: 1.day.after(Date.current) %>
   </div>
 
   <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.number_field :status %>
+    <%= form.label :status, style: "display: block", class: " form-label" %>
+    <%= form.select :status, Task.statuses.keys.map { |type| [type.humanize, type] }, {}, class: 'form-control mb-2' %>
   </div>
 
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit class: "mt-2 btn btn-warning margin_right" %>
   </div>
 <% end %>

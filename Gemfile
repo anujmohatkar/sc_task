@@ -56,7 +56,7 @@ group :development do
   gem "web-console"
   gem "foreman" # Install foreman so bin/dev can be used for starting development server.
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
+  gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"

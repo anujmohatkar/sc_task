@@ -2,9 +2,7 @@
 
 <%= render "form", task: @task %>
 
-<br>
-
-<div>
-  <%= link_to "Show this task", @task %> |
-  <%= link_to "Back to tasks", tasks_path %>
+<div class="mt-2">
+  <%= link_to "Show this task", @task, class: "btn btn-outline-primary" %>
+  <%= link_to "Back to tasks", tasks_path, class: "btn btn-outline-primary" %>
 </div>

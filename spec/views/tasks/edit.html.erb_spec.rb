@@ -6,7 +6,7 @@ RSpec.describe "tasks/edit", type: :view do
   let(:task) {
     Task.create!(
       name: "MyString",
-      status: 1,
+      status: "pending",
       user: user,
       due_date: Date.current
     )
