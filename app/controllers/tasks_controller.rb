@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: %i[ show edit update destroy ]
-  #before_action :ensure_owner, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks or /tasks.json
   def index
@@ -79,12 +78,6 @@ class TasksController < ApplicationController
       end
     end
 
-    # def ensure_owner
-    #   unless @task.user == current_user
-    #     redirect_to tasks_path, alert: 'You are not authorized to view this task.'
-    #   end
-    # end
-    
     # Only allow a list of trusted parameters through.
     def task_params
       params.require(:task).permit(:name, :due_date, :status)
