@@ -71,3 +71,6 @@ end
 gem 'dotenv-rails', '~> 3.1', '>= 3.1.2'
 gem 'cssbundling-rails'
 gem 'devise'
+
+# For checking if the email is valid or not.
+gem "valid_email2" 
