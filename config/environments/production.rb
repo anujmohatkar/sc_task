@@ -99,7 +99,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:         ENV['SC_SMTP_SERVER_ADDRESS'],
     port:            587,
-    domain:          ENV['SC_DOMAIN_NAME'],
+    domain:          ENV['SC_FULL_DOMAIN_NAME'],
     user_name:       ENV['SC_GMAIL_USER_NAME'],
     password:        ENV['SC_GMAIL_APP_PASSWORD'],
     authentication:  'plain',
