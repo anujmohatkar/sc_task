@@ -3,10 +3,10 @@ module Api
     skip_before_action :verify_authenticity_token, only: %i[max_sum]
 
     def max_sum
-      nums = params[:numbers]
+      nums = params[:numbers].map(&:to_i)
       if nums.length == 1 # return nums as only 3 numbers are passed
         max_sum_nums = nums
-      elsif nums.length < 1
+      elsif nums.empty?
         max_sum_nums = "Not Enough Numbers" # not enough numbers are passed
       else
         i = 0 # save maximum sum's`` start index here.

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-  let(:user) { User.create(email: "test@example.com", password: "password123") }
+  include_context "task user"
 
   it 'is valid with valid attributes' do
     task = Task.new(name: "Valid Task Name", due_date: Date.tomorrow, user: user)

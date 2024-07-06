@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "tasks/edit", type: :view do
-
-  let(:user) { User.create!(email: "test@example.com", password: "password123") }
+  include_context "task user"
+  
   let(:task) {
     Task.create!(
       name: "MyString",

@@ -65,4 +65,5 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 end
