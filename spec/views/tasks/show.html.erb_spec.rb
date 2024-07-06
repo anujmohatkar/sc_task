@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "tasks/show", type: :view do
-  let(:user) { User.create!(email: "test@example.com", password: "password123") }
-  
+  include_context "task user"
+
   before(:each) do
     assign(:task, Task.create!(
       name: "Name22",

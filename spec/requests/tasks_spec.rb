@@ -13,13 +13,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/tasks", type: :request do
-  let(:user) { User.create(email: "test@example.com", password: "password123") }
-  let(:other_user) { User.create(email: "other@example.com", password: "password123") }
-  let(:valid_attributes) { { name: "Valid Task", due_date: Date.tomorrow, status: "pending" } }
-
-  before do
-    sign_in user
-  end
+  include_context "user authentication"
   # This should return the minimal set of attributes required to create a valid
   # Task. As you add validations to Task, be sure to
   # adjust the attributes here as well.

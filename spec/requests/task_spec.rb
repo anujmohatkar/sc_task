@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Tasks", type: :request do
-  let(:user) { User.create!(email: "test@example.com", password: "password123") }
-  let(:other_user) { User.create!(email: "other@example.com", password: "password123") }
-  let(:valid_attributes) { { name: "Valid Task", due_date: Date.tomorrow, status: "pending" } }
-
-  before do
-    sign_in user
-  end
+  include_context "user authentication"
 
   describe "GET /tasks" do
     it "returns a success response" do

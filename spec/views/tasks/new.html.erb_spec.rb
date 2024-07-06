@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "tasks/new", type: :view do
-  let(:user) { User.create!(email: "test@example.com", password: "password123") }
-  before do
-    sign_in user
-  end
-  
+  include_context "task user"
+
   before(:each) do
     assign(:task, Task.new(
       name: "MyString",
