@@ -1,17 +1,22 @@
 class TasksController < ApplicationController
+  include TasksSupport
+
   before_action :authenticate_user!
   before_action :set_task, only: %i[ show edit update destroy ]
 
   # GET /tasks or /tasks.json
   def index
-    # @tasks = current_user.tasks
-    @tasks = case params[:status]
-    when 'overdue'
-      current_user.tasks.where('due_date < ?', Date.today).where.not(status: 'completed')
-    when 'completed'
-      current_user.tasks.where(status: 'completed')
-    else
-      current_user.tasks.all
+    @tab_status = set_tab_status
+    @tasks = tasks_by_tab_status
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update('tasks-container', partial: 'tasks_container', locals: { tasks: @tasks, tab_status: @tab_status }),
+          turbo_stream.update('nav-pills', partial: 'nav_pills', locals: { tab_status: @tab_status })
+        ]
+      end
     end
   end
 
@@ -48,8 +53,9 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to tasks_path, notice: "Task was successfully updated." }
+        format.html { redirect_to @task, notice: "Task was successfully updated.", params: [tab_status: params[:tab_status]] }
         format.json { render :show, status: :ok, location: @task }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("tasks-container", partial: "tasks_container", locals: { tasks: tasks_by_tab_status, tab_status: params[:tab_status] }),  notice: "Task was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -64,6 +70,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
       format.json { head :no_content }
+      format.turbo_stream
     end
   end
 
@@ -80,6 +87,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :due_date, :status)
+      params.require(:task).permit(:name, :due_date, :status, :tab_status)
     end
 end
