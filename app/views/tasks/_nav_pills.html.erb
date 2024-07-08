@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "nav-pills" do %>
+  <nav class="nav nav-pills nav-fill" id="nav-pills">
+    <%= link_to "All", tasks_path(tab_status: 'all'), class: "nav-link #{params[:tab_status].nil? || params[:tab_status] == 'all' || @tab_status == "all" ? 'active' : ''} text-center", data: { turbo_stream: true } %>
+    <%= link_to "Overdue", tasks_path(tab_status: 'overdue'), class: "nav-link #{params[:tab_status] == 'overdue' ? 'active' : ''} text-center", data: { turbo_stream: true } %>
+    <%= link_to "Completed", tasks_path(tab_status: 'completed'), class: "nav-link #{params[:tab_status] == 'completed' ? 'active' : ''} text-center", data: { turbo_stream: true } %>
+  </nav>
+<% end %>

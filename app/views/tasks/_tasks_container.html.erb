@@ -1,0 +1,40 @@
+<%= turbo_frame_tag "tasks-container" do %>
+  <% if tasks.present? %>
+    <% if tab_status == "all"%>
+      <div class="row status-containers">
+        <% ['pending', 'in_progress', 'completed'].each do |status| %>
+          <div class="col-md-4 status-column status-column-separator">
+            <h3 class="text-center"><%= status.titleize %></h3>
+            <div class="task-container" id="<%= status %>-tasks">
+            <hr class="my-2">
+              <% tasks.select { |task| task.status == status }.each do |task| %>
+                <%= render task, tab_status: tab_status %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% elsif tab_status == "overdue" %>
+      <div class="row status-containers">
+        <% ['pending', 'in_progress'].each do |status| %>
+          <div class="col-md-6 status-column <%= 'status-column-separator' unless status == 'completed' %>">
+            <h3 class="text-center"><%= status.titleize %></h3>
+            <div class="task-container" id="<%= status %>-tasks">
+              <% tasks.select { |task| task.status == status }.each do |task| %>
+                <%= render task, tab_status: tab_status %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="task-container">
+        <% tasks.each do |task| %>
+          <%= render task, tab_status: tab_status %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No tasks found.</p>
+  <% end %>
+<% end %>

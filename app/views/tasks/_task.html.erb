@@ -1,17 +1,20 @@
-
+<% tab_status = "show" if tab_status.nil? %>
 <div class="card mb-2" id="<%= dom_id task %>">
   <div class="card-header text-bg-<%= status_color(task.status) %> d-flex justify-content-between align-items-center">
     <span>Status: <%= task.status.humanize %></span>
     <span class="d-flex gap-2">
-        <%= link_to "Edit", edit_task_path(task), class: "btn btn btn-outline-light" %>
+        <%= link_to "Edit", edit_task_path(task), class: "btn btn btn-outline-light", data: { turbo: false } %>
         <%= button_to "Destroy", task,
             form: { 
               data: { 
-                turbo_confirm: "Are you sure?"
+                turbo: tab_status == "show" ? false : true,
+                turbo_confirm: tab_status == "show" ? nil : "Are you sure?"
               }
             },
             method: :delete, 
-            class: "btn btn-dark" %>
+            class: "btn btn-dark",
+            onclick: tab_status == "show" ? "return confirm('Are you sure that you want to destroy this Task?');" : nil
+          %>
     </span>
   </div>
   <div class="card-body">
@@ -19,38 +22,43 @@
     <p class="card-text">Due: <%= format_due_date(task.due_date) %></p>
     <div class="d-flex">
       <% if task.status == "completed" %>
-        <%= button_to "Mark as Pending", 
+        <%= button_to "Mark as Pending",
                   task_path(task),
                   method: :patch,
                   data: {turbo_method: :patch},
-                  params: { task: { status: 'pending' } },
+                  params: { task: { status: 'pending' }, tab_status: tab_status },
                   class: "btn btn-outline-danger mb-2 me-2" %>
         <%= button_to "Mark as In Progress", 
-                  task_path(task), 
-                  method: :patch, 
-                  params: { task: { status: 'in_progress' } },
+                  task_path(task),
+                  method: :patch,
+                  data: {turbo_method: :patch},
+                  params: { task: { status: 'in_progress' }, tab_status: tab_status },
                   class: "btn btn-outline-warning mb-2 me-2" %>
       <% elsif task.status == "pending" %>
         <%= button_to "Mark as Completed", 
                   task_path(task),
-                  method: :patch, 
-                  params: { task: { status: 'completed' } },
+                  method: :patch,
+                  data: {turbo_method: :patch},
+                  params: { task: { status: 'completed' }, tab_status: tab_status },
                   class: "btn btn-outline-success mb-2 me-2" %>
         <%= button_to "Mark as In Progress", 
                   task_path(task), 
-                  method: :patch, 
-                  params: { task: { status: 'in_progress' } },
+                  method: :patch,
+                  data: {turbo_method: :patch},
+                  params: { task: { status: 'in_progress' }, tab_status: tab_status },
                   class: "btn btn-outline-success mb-2 me-2" %>
       <% else %>
         <%= button_to "Mark as Pending", 
                   task_path(task),
-                  method: :patch, 
-                  params: { task: { status: 'pending' } },
+                  method: :patch,
+                  data: {turbo_method: :patch},
+                  params: { task: { status: 'pending' }, tab_status: tab_status },
                   class: "btn btn-outline-warning mb-2 me-2" %>
         <%= button_to "Mark as Completed", 
                   task_path(task), 
-                  method: :patch, 
-                  params: { task: { status: 'completed' } },
+                  method: :patch,
+                  data: {turbo_method: :patch},
+                  params: { task: { status: 'completed' }, tab_status: tab_status },
                   class: "btn btn-outline-success mb-2 me-2" %>
       <% end %>
     </div>

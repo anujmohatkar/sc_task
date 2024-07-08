@@ -1,11 +1,7 @@
-<%= render @task %>
-
+<%= turbo_frame_tag "tasks-container" do %>
+  <%= render @task %>
+<% end %>
 <div>
   <%= link_to "Edit this task", edit_task_path(@task) , class: "btn btn-outline-primary" %> |
-  <%= link_to "Back to tasks", tasks_path, class: "btn btn-outline-secondary"  %>
-
-  <%= button_to "Destroy this task", @task,
-              form: { data: { turbo_confirm: "Are you sure?"}},
-              method: :delete, 
-              class: "btn btn-danger mt-2" %>
+  <%= link_to "Back to tasks", tasks_path, class: "btn btn-outline-secondary", data: { turbo: false} %>
 </div>
